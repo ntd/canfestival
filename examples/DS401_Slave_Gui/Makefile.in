@@ -78,7 +78,7 @@ ObjDict.c: ObjDict.od
 	$(PYTHON) ../../objdictgen/objdictgen.py ObjDict.od ObjDict.c
 
 .cpp.o:
-	$(CXX) -c $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) `$(WX_CONFIG) --cxxflags` $< -o $@
+	$(CXX) -c $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) $< `$(WX_CONFIG) --cxxflags` -o $@
 
 clean:
 	rm -f $(MASTER_OBJS)
