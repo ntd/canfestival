@@ -154,7 +154,7 @@ $(TARGET)_%.o: %.c
 
 ifeq ($(ENABLE_SHARED),1)
 install: libcanfestival.so
-	mkdir -p $(PREFIX)/lib/
+	mkdir -p $(PREFIX)/lib/pkgconfig
 	mkdir -p $(PREFIX)/include/canfestival
 	cp libcanfestival.so $(PREFIX)/lib/
 	cp canfestival.pc $(PREFIX)/lib/pkgconfig
