@@ -17,6 +17,6 @@ void Call_stopped (CO_Data * d);
 
 void Call_post_sync (CO_Data * d);
 void Call_post_TPDO (CO_Data * d);
-void Call_storeODSubIndex (CO_Data * d, UNS16 wIndex, UNS8 bSubindex);
+UNS32 Call_storeODSubIndex (CO_Data * d, UNS16 wIndex, UNS8 bSubindex);
 
 #endif /*CALLBACK_H_ */

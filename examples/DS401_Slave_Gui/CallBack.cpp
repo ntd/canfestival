@@ -86,9 +86,10 @@ Call_post_TPDO (CO_Data * d)
   //*textLog << wxT("Post_TPDO\n");
 }
 
-void
+UNS32
 Call_storeODSubIndex (CO_Data * d, UNS16 wIndex, UNS8 bSubindex)
 {
   /*printf ("StoreODSubIndex : %4.4x %2.2x\n", wIndex, bSubindex);*/
   //*textLog << wxT("StoreODSubIndex :\n");
+  return OD_SUCCESSFUL;
 }
