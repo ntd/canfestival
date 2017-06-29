@@ -36,6 +36,7 @@ TARGET = SUB_TARGET
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
 ENABLE_SHARED = SUB_ENABLE_SHARED
+WX_CONFIG = SUB_WX_CONFIG
 
 EXEC = main
 SRCS = $(wildcard *.cpp)
@@ -64,10 +65,10 @@ endif
 
 ifeq ($(ENABLE_SHARED),1)
 DS401_Slave_Gui: ObjDict.c $(OBJS) $(CPP_OBJS)
-	$(LD) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) $(OBJS) $(CPP_OBJS) $(EXE_CFLAGS) `wx-config --libs` -L../../src -L../../drivers/unix -lcanfestival -lcanfestival_$(TARGET) -o $@
+	$(LD) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) $(OBJS) $(CPP_OBJS) $(EXE_CFLAGS) `$(WX_CONFIG) --libs` -L../../src -L../../drivers/unix -lcanfestival -lcanfestival_$(TARGET) -o $@
 else
 DS401_Slave_Gui: ObjDict.c $(OBJS) $(CPP_OBJS)
-	$(LD) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) $(OBJS) $(CPP_OBJS) $(EXE_CFLAGS) `wx-config --libs` -o $@
+	$(LD) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) $(OBJS) $(CPP_OBJS) $(EXE_CFLAGS) `$(WX_CONFIG) --libs` -o $@
 endif
 %.o: %.c
 	$(CC) -c $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) $< -o $@
@@ -77,7 +78,7 @@ ObjDict.c: ObjDict.od
 	$(PYTHON) ../../objdictgen/objdictgen.py ObjDict.od ObjDict.c
 
 .cpp.o:
-	$(CXX) -c $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) `wx-config --cxxflags` $< -o $@
+	$(CXX) -c $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) `$(WX_CONFIG) --cxxflags` $< -o $@
 
 clean:
 	rm -f $(MASTER_OBJS)
@@ -97,7 +98,7 @@ uninstall:
 	rm -f $(PREFIX)/bin/DS401_Slave_Gui
 
 $(EXEC): $(OBJS)
-	$(LD) $(OBJS) `wx-config --libs` -o $(EXEC)
+	$(LD) $(OBJS) `$(WX_CONFIG) --libs` -o $(EXEC)
 
 -include $(DEPFILE)
 

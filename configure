@@ -120,6 +120,7 @@ while [ $# -ge 1 ]; do
 	--timers=*)	SUB_TIMERS_DRIVER=$optarg;;
 	--wx=*)		SUB_WX=$optarg;
 			echo "Forced wx detection to $optarg";;
+	--wx-config=*)	WX_CONFIG=$optarg;;
 	--disable-Ox)	DISABLE_OPT=1;
 			echo "On user request: Won't optimize with \"-Ox\"";;
 	--disable-dll)	DISABLE_DLL=1;
@@ -179,6 +180,7 @@ while [ $# -ge 1 ]; do
 		echo	"                 see http://www.cosateq.com/"
 		echo 	" --timers=foo  Use 'foo' as TIMERS driver (can be 'unix', 'xeno', 'rtai', 'kernel' or 'kernel_xeno')"
 		echo 	" --wx=foo      Force result of WxWidgets detection (0 or 1)"
+		echo 	" --wx-config=foo   Use 'foo' to get WxWidgets flags (default 'wx-config')"
 		echo 	" --binutils=path   Override binutils path detection (as regards \$CC content)"
 		echo 	" --disable-dll Disable run-time dynamic linking of can, led and nvram drivers"
 		echo 	" --enable-lss  Enable the LSS services"
@@ -676,8 +678,12 @@ echo "Using prefix: ${SUB_PREFIX}"
 #                           GUESS DEPENDENCIES                            #
 ###########################################################################
 
+if [ "$WX_CONFIG" = "" ]; then
+	WX_CONFIG=wx-config
+fi
+
 if [ "$SUB_WX" = "" ]; then
-	if which wx-config >/dev/null 2>&1; then
+	if which "$WX_CONFIG" >/dev/null 2>&1; then
 		echo -n "Testing wxWidgets compiles ... "
 		cat > /tmp/wx_test.cpp <<EOF
 #include "wx/wx.h"
@@ -686,7 +692,7 @@ class MyApp : public wxApp
 };
 IMPLEMENT_APP(MyApp)
 EOF
-		if $CXX /tmp/wx_test.cpp `wx-config --cxxflags` `wx-config --libs` -o /tmp/wx_test >/dev/null 2>&1 ; then
+		if $CXX /tmp/wx_test.cpp `"$WX_CONFIG" --cxxflags` `"$WX_CONFIG" --libs` -o /tmp/wx_test >/dev/null 2>&1 ; then
 			SUB_WX=1
 			echo "Yes"
 		else
@@ -940,6 +946,7 @@ for makefile_in in $MAKEFILES; do
 	s:SUB_CXX:${CXX}:
 	s:SUB_LD:${LD}:
 	s:SUB_PYTHON:${PYTHON}:
+	s:SUB_WX_CONFIG:${WX_CONFIG}:
 	s:SUB_PROG_CFLAGS:${SUB_PROG_CFLAGS}:
 	s:SUB_EXE_CFLAGS:${SUB_EXE_CFLAGS}:
 	s:SUB_KERNELDIR:${SUB_KERNELDIR}:
