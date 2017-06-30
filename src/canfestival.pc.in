@@ -6,5 +6,5 @@ Name: canfestival
 Description: Free software CANopen framework
 Version: 3
 
-Libs: -L${libdir} -lcanfestival
+Libs: -L${libdir} -lcanfestival -lcanfestival_SUB_TARGET -lpthread -lrt -ldl
 Cflags: -I${includedir}/canfestival
