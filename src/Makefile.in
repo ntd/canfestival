@@ -161,7 +161,7 @@ install: libcanfestival.so
 	cp ../include/*.h $(PREFIX)/include/canfestival
 else
 install: libcanfestival.a
-	mkdir -p $(PREFIX)/lib/
+	mkdir -p $(PREFIX)/lib/pkgconfig
 	mkdir -p $(PREFIX)/include/canfestival
 	cp libcanfestival.a $(PREFIX)/lib/
 	cp canfestival.pc $(PREFIX)/lib/pkgconfig
